@@ -1,0 +1,44 @@
+<div class="app flex-row align-items-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card-group mb-0">
+          <div class="card p-4">
+            <div class="card-block">
+              <form #loginFom="ngForm" (ngSubmit)="login()">
+                <h1>Connexion</h1>
+                <p class="text-muted">Connectez-vous à votre compte</p>
+                <div class="input-group mb-3" [ngClass]="{'has-danger': loginCtrl.dirty && loginCtrl.hasError('required')}">
+                  <span class="input-group-addon"><i class="icon-user"></i></span>
+                  <input type="email" name="email" class="form-control" placeholder="Email" required [(ngModel)]="credentials.email" #loginCtrl="ngModel" >
+                </div>
+                <div class="input-group mb-4" [ngClass]="{'has-danger': passwordCtrl.dirty && passwordCtrl.hasError('required')}">
+                  <span class="input-group-addon"><i class="icon-lock"></i></span>
+                  <input type="password" name="password" class="form-control" placeholder="Mot de passe" required [(ngModel)]="credentials.password" #passwordCtrl="ngModel">
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <button type="submit" class="btn btn-primary px-4">Connexion</button>
+                  </div>
+                  <div class="col-6 text-right">
+                    <button type="button" class="btn btn-link px-0">Mot de passe oublié ?</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="card card-inverse card-primary py-5 d-md-down-none" style="width:44%">
+            <div class="card-block text-center">
+              <div>
+                <h2>Créer mon compte</h2>
+                <p>Estimez votre consomation énergétique. Suivez au jour le jour l'évolution de votre consomation d'électricité ou de gaz. Comparez votre comsomation actuelle à celle des années précédentes.</p>
+                <p>Maitrisez votre budget !</p>
+                <button type="button" [routerLink]="['/register']" class="btn btn-primary active mt-3">S'inscrire !</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

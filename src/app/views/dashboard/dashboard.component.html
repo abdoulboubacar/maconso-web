@@ -1,0 +1,25 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div *ngFor="let userdeal of user.deals" class="col-sm-12 col-lg-3">
+      <app-deal-component
+        [deal]="userdeal"
+        (onToggleSetting)="showDealModal($event)"
+      >
+
+      </app-deal-component>
+    </div><!--/.col-->
+
+    <div class="col-sm-12 col-lg-3">
+      <div class="card card-inverse card-default align-middle add-conso" (click)="showDealModal(deal)" >
+        <div class="chart-wrapper px-3" style="height:155px;">
+          <span><i class="icon-plus icons font"></i></span>
+        </div>
+      </div>
+    </div><!--/.col-->
+  </div><!--/.row-->
+</div>
+<app-chart></app-chart>
+<app-deal-modal-component
+  [user]="user"
+  [resources]="resources">
+</app-deal-modal-component>

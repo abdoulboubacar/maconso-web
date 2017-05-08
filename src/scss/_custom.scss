@@ -1,0 +1,58 @@
+// Here you can add other styles
+main {
+  margin-top: 1.5rem;
+}
+
+@mixin card-variant($background, $border) {
+  background-color: $background;
+  border-color: $border;
+
+  .card-header,
+  .card-footer {
+    background-color: transparent;
+  }
+}
+
+@each $variant, $colors in (default: $gray-lighter $gray-lightest, watter: $brand-primary $brand-primary, gas: $brand-warning $brand-warning, electricity: $brand-danger $brand-danger) {
+  .card-#{$variant} {
+    @include card-variant(nth($colors, 1), nth($colors, 2));
+    .dropdown-menu {
+      .dropdown-item {
+        padding: 4px 15px;
+      }
+    }
+  }
+}
+
+.add-conso {
+  text-align: center;
+  line-height: 16.5;
+  cursor: pointer;
+  .font {
+    font-size: 6.5rem !important;
+  }
+}
+
+/*modals*/
+@each $variant, $color in (default: $gray-lighter, watter: $brand-primary, gas: $brand-warning, electricity: $brand-danger) {
+  .modal-conso-#{$variant} {
+
+    .modal-content {
+      border-color: $color;
+    }
+
+    .modal-header {
+      color: #fff;
+      background-color: $color;
+    }
+
+    .btn-primary {
+      @include button-variant($color, $color, $color);
+    }
+  }
+}
+
+button {
+  cursor: pointer;
+}
+
