@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, Input, Renderer2, AfterViewInit} from '@angular/core';
+import {Component, OnInit, ViewChild, Input, Renderer2, AfterViewInit, OnChanges} from '@angular/core';
 import {ModalDirective} from "ngx-bootstrap";
 import {FormControl, FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {DealModel} from "../../../models/deal.model";
@@ -14,21 +14,29 @@ import {ResourceService} from "../../services/resource/resource.service";
   templateUrl: './deal-modal.component.html',
   styleUrls: ['./deal-modal.component.scss']
 })
-export class DealModalComponent implements OnInit, AfterViewInit {
+export class DealModalComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input()
-  public user: UserModel;
-  public deal: DealModel = new DealModel();
+  private user: UserModel;
+
+  private deal: DealModel = DealModel.getDefaultDeal();
+
   @Input()
-  public resources;
-  public dealForm: FormGroup;
-  public resourceCtrl: FormControl;
-  public supplierCtrl: FormControl;
-  public unitPriceCtrl: FormControl;
-  public nameCtrl: FormControl;
-  @ViewChild('dealModal') public dealModal: ModalDirective;
-  @ViewChild('dealModalDialog') public dealModalDialog: any;
-  public selectedFormResource: ResourceModel;
+  private resources;
+
+  private dealForm: FormGroup;
+  private resourceCtrl: FormControl;
+  private supplierCtrl: FormControl;
+  private unitPriceCtrl: FormControl;
+  private postalCodeCtrl: FormControl;
+  private nameCtrl: FormControl;
+
+  @ViewChild('dealModal')
+  public dealModal: ModalDirective;
+
+  @ViewChild('dealModalDialog')
+  private dealModalDialog: any;
+  private selectedFormResource: ResourceModel;
 
   constructor(
     private dealService: DealService,
@@ -43,15 +51,18 @@ export class DealModalComponent implements OnInit, AfterViewInit {
     this.supplierCtrl = this.fb.control('', Validators.required);
     this.unitPriceCtrl = this.fb.control('', Validators.required);
     this.nameCtrl = this.fb.control('', Validators.required);
+    this.postalCodeCtrl = this.fb.control('', Validators.required);
 
     this.dealForm = this.fb.group({
       resource: this.resourceCtrl,
       supplier: this.supplierCtrl,
       unitPrice: this.unitPriceCtrl,
-      name: this.nameCtrl
+      name: this.nameCtrl,
+      postalCode: this.postalCodeCtrl
     });
+  }
 
-    // this.setFormValues();
+  ngOnChanges() {
   }
 
   ngAfterViewInit() {
@@ -70,7 +81,8 @@ export class DealModalComponent implements OnInit, AfterViewInit {
       'resource': '',
       'name': '',
       'unitPrice': '',
-      'supplier': ''
+      'supplier': '',
+      'postalCode': ''
     });
     this.selectedFormResource = null;
   }
@@ -84,13 +96,26 @@ export class DealModalComponent implements OnInit, AfterViewInit {
     this.deal.resource = this.dealForm.value.resource;
     this.deal.unitPrice = this.dealForm.value.unitPrice;
     this.deal.supplier = this.dealForm.value.supplier;
+    this.deal.postalCode = this.dealForm.value.postalCode;
 
     if (isNullOrUndefined(this.deal.id)) {
       this.dealService.createDeal(this.deal).subscribe(
         deal => {
           this.user.deals = this.user.deals.concat([deal]);
           this.storageService.save("user", this.user);
-          this.dealForm.reset();
+          //this.dealForm.reset();
+          this.dealModal.hide();
+        }
+      );
+    } else {
+      this.dealService.updateDeal(this.deal).subscribe(
+        deal => {
+          let dealIndex = this.user.deals.indexOf(this.deal);
+          if (dealIndex !== -1) {
+            this.user.deals[dealIndex] = deal;
+            this.deal = deal;
+            this.storageService.save("user", this.user);
+          }
           this.dealModal.hide();
         }
       );
@@ -126,8 +151,10 @@ export class DealModalComponent implements OnInit, AfterViewInit {
       'resource': resourceKey,
       'name': deal.name,
       'unitPrice': deal.unitPrice,
-      'supplier': deal.supplier
+      'supplier': deal.supplier,
+      'postalCode': deal.postalCode
     });
+    this.render();
     this.dealModal.show();
   }
 

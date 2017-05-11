@@ -1,0 +1,49 @@
+<div class="card" *ngIf="deal.id != null">
+  <div class="card-header">
+    {{deal.resource.name | upperFirst}}
+    <div class="card-actions">
+      <a href="http://www.chartjs.org">
+        <small class="text-muted">docs</small>
+      </a>
+    </div>
+  </div>
+
+  <div *ngIf="deal.resource.key === 'ELECTRICITY' " class="card-block">
+    <div class="chart-wrapper">
+      <canvas #energieChild height="380" baseChart class="chart"
+              [datasets]="chartData"
+              [chartType]="chartType"
+              [options]="chartOptions"
+              [labels]="chartLabels"
+              [legend]="chartLegend"
+              [colors]="chartElectricityColours"
+      ></canvas>
+    </div>
+  </div>
+
+  <div *ngIf="deal.resource.key === 'GAS' " class="card-block">
+    <div class="chart-wrapper">
+      <canvas #energieChild height="380" baseChart class="chart"
+              [datasets]="chartData"
+              [chartType]="chartType"
+              [options]="chartOptions"
+              [labels]="chartLabels"
+              [legend]="chartLegend"
+              [colors]="chartGasColours"
+      ></canvas>
+    </div>
+  </div>
+
+  <div *ngIf="deal.resource.key === 'WATTER' " class="card-block">
+    <div class="chart-wrapper">
+      <canvas #energieChild height="380" baseChart class="chart"
+              [datasets]="chartData"
+              [chartType]="chartType"
+              [options]="chartOptions"
+              [labels]="chartLabels"
+              [legend]="chartLegend"
+              [colors]="chartWatterColours"
+      ></canvas>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div bsModal #stateModal="bs-modal" class="modal fade modal-conso-{{deal.resource.key | lower}}" tabindex="-1" role="dialog" aria-labelledby="stateModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form [formGroup]="stateForm" (ngSubmit)="submitState()">
+        <div class="modal-header">
+          <h4 class="modal-title">Revelé mon compteur {{deal.resource.name}}</h4>
+          <button type="button" class="close" (click)="stateModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group mb-3">
+            <input type="number" name="statement" class="form-control" placeholder="Valeur du compteur" required formControlName="statement" >
+            <span class="input-group-addon"><i class="icon-speedometer icons font-2xl d-block"></i></span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="stateModal.hide()">Close</button>
+          <button type="submit" class="btn btn-deal-primary" [disabled]="!stateForm.valid">Enregister</button>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

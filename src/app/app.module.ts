@@ -22,6 +22,12 @@ import { ChartComponent } from './components/chart/chart.component';
 import { LowerPipe } from './pipes/lower/lower.pipe';
 import { UpperFirstPipe } from './pipes/upper-first/upper-first.pipe';
 import {ResourceService} from "./services/resource/resource.service";
+import {StateService} from "./services/state/state.service";
+import {ChartsModule} from "ng2-charts";
+import {UserResolver} from "./resolvers/user-resolver/user-resolver.service";
+import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
+import { StateModalComponent } from './components/state-modal/state-modal.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +39,10 @@ import {ResourceService} from "./services/resource/resource.service";
     DealModalComponent,
     ChartComponent,
     LowerPipe,
-    UpperFirstPipe
+    UpperFirstPipe,
+    FooterComponent,
+    HeaderComponent,
+    StateModalComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +52,7 @@ import {ResourceService} from "./services/resource/resource.service";
     BsDropdownModule.forRoot(),
     RouterModule.forRoot(ROUTES),
     ModalModule,
+    ChartsModule
   ],
   providers: [
     { provide: Http, useClass: HttpService },
@@ -51,8 +61,10 @@ import {ResourceService} from "./services/resource/resource.service";
     StorageService,
     AuthGuardService,
     DealService,
-    ResourceService
+    ResourceService,
+    StateService,
+    UserResolver
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, HeaderComponent, FooterComponent]
 })
 export class AppModule { }

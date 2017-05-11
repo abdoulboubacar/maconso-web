@@ -8,8 +8,21 @@ export class DealModel {
   unitPrice: number;
   name: string;
   supplier: string;
-  isSaved = function() : boolean {
+  postalCode: number;
+  isSaved = function (): boolean {
     return !isNullOrUndefined(this.id);
+  }
+
+  public static getDefaultDeal(): DealModel {
+    let deal = new DealModel();
+    deal.id = null;
+    deal.resource = null;
+    deal.unitPrice = null;
+    deal.name = '';
+    deal.supplier = '';
+    deal.postalCode = null;
+
+    return deal;
   }
 }
 

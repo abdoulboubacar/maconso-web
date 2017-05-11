@@ -1,0 +1,20 @@
+<header class="app-header navbar">
+  <a class="navbar-brand" href="#"></a>
+  <ul class="nav navbar-nav d-md-down-none">
+  </ul>
+  <ul class="nav navbar-nav ml-auto" *ngIf="user !== undefined && user!==null && !user.isAnonymous">
+    <li class="nav-item dropdown" dropdown (onToggle)="toggled($event)">
+      <a href class="nav-link dropdown-toggle" dropdownToggle (click)="false">
+        <img src="assets/img/avatars/2.jpg" class="img-avatar">
+        <span class="d-md-down-none">{{user.firstName}} {{user.lastName}}</span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+        <a class="dropdown-item" href="#"><i class="fa fa-user"></i>Mon compte</a>
+        <a class="dropdown-item" (click)="logout()" href="#" ><i class="fa fa-lock"></i>Déconnexion</a>
+      </div>
+    </li>
+    <li class="nav-item d-md-down-none">
+      <!--<a class="nav-link navbar-toggler" href="#" appAsideMenuToggler>&#9776;</a>-->
+    </li>
+  </ul>
+</header>

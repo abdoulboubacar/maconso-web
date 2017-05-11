@@ -15,41 +15,81 @@ main {
 
 @each $variant, $colors in (default: $gray-lighter $gray-lightest, watter: $brand-primary $brand-primary, gas: $brand-warning $brand-warning, electricity: $brand-danger $brand-danger) {
   .card-#{$variant} {
+    cursor: pointer;
+    opacity: .55;
     @include card-variant(nth($colors, 1), nth($colors, 2));
-    .dropdown-menu {
-      .dropdown-item {
-        padding: 4px 15px;
-      }
+    .btn [class^="icon-"], .btn [class*=" icon-"] {
+      display: inline-block;
+      margin-top: -2px;
+      vertical-align: middle;
+      font-size: 30px;
+      font-weight: bold;
     }
   }
 }
 
 .add-conso {
   text-align: center;
-  line-height: 16.5;
+  line-height: 16;
   cursor: pointer;
+  opacity: 1;
   .font {
     font-size: 6.5rem !important;
   }
 }
 
+.card-current {
+  border: solid 6px white;
+  top: -6px;
+  box-sizing: border-box;
+  opacity: 1;
+}
+
+.app, app-dashboard, app-root {
+  min-height: 80vh;
+}
+
 /*modals*/
-@each $variant, $color in (default: $gray-lighter, watter: $brand-primary, gas: $brand-warning, electricity: $brand-danger) {
+@each $variant, $colors in (
+  default: $gray-lighter $white $gray-lighter $gray-lighter,
+  watter: $brand-primary $btn-primary-color $btn-primary-bg $btn-primary-border-color,
+  gas: $brand-warning $btn-warning-color $btn-warning-bg $btn-warning-border-color,
+  electricity: $brand-danger $btn-danger-color $btn-danger-bg $btn-danger-border-color)
+{
   .modal-conso-#{$variant} {
 
     .modal-content {
-      border-color: $color;
+      border-color: nth($colors, 1);
     }
 
     .modal-header {
       color: #fff;
-      background-color: $color;
+      background-color: nth($colors, 1);
     }
 
-    .btn-primary {
-      @include button-variant($color, $color, $color);
+    .btn-deal-primary {
+      @include button-variant(nth($colors, 2), nth($colors, 3), nth($colors, 4));
     }
   }
+}
+
+.btn-primary {
+  @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border-color);
+}
+.btn-secondary {
+  @include button-variant($btn-secondary-color, $btn-secondary-bg, $btn-secondary-border-color);
+}
+.btn-info {
+  @include button-variant($btn-info-color, $btn-info-bg, $btn-info-border-color);
+}
+.btn-success {
+  @include button-variant($btn-success-color, $btn-success-bg, $btn-success-border-color);
+}
+.btn-warning {
+  @include button-variant($btn-warning-color, $btn-warning-bg, $btn-warning-border-color);
+}
+.btn-danger {
+  @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border-color);
 }
 
 button {

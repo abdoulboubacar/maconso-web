@@ -1,24 +1,27 @@
-<div class="animated fadeIn">
+<div>
   <div class="row">
     <div *ngFor="let userdeal of user.deals" class="col-sm-12 col-lg-3">
       <app-deal-component
         [deal]="userdeal"
+        [currentDeal]="deal"
         (onToggleSetting)="showDealModal($event)"
+        (onClickDeal)="loadDeal($event)"
+        (onSaveStateEmitter)="onSaveState($event)"
       >
 
       </app-deal-component>
     </div><!--/.col-->
 
     <div class="col-sm-12 col-lg-3">
-      <div class="card card-inverse card-default align-middle add-conso" (click)="showDealModal(deal)" >
-        <div class="chart-wrapper px-3" style="height:155px;">
+      <div class="card card-inverse card-default align-middle add-conso" (click)="showDealModal(defaultDeal)" >
+        <div class="chart-wrapper px-3" style="height:145px;">
           <span><i class="icon-plus icons font"></i></span>
         </div>
       </div>
     </div><!--/.col-->
   </div><!--/.row-->
 </div>
-<app-chart></app-chart>
+<app-chart [deal]="deal"></app-chart>
 <app-deal-modal-component
   [user]="user"
   [resources]="resources">
