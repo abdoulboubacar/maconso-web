@@ -1,5 +1,5 @@
 import {Component, OnInit, AfterViewInit} from '@angular/core';
-import {UserModel} from "../../../models/user.model";
+import {UserModel} from "../../models/user.model";
 import {StorageService} from "../../services/storage/storage.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {LoginService} from "../../services/login/login.service";

@@ -1,11 +1,11 @@
 import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {StorageService} from "../../services/storage/storage.service";
-import {UserModel} from "../../../models/user.model";
+import {UserModel} from "../../models/user.model";
 import {DealModalComponent} from "../../components/deal-modal/deal-modal.component";
 import {ResourceService} from "../../services/resource/resource.service";
-import {DealModel} from "../../../models/deal.model";
+import {DealModel} from "../../models/deal.model";
 import {ActivatedRoute} from "@angular/router";
-import {StateModel} from "../../../models/state.model";
+import {StateModel} from "../../models/state.model";
 import {ChartComponent} from "../../components/chart/chart.component";
 
 @Component({
@@ -13,18 +13,11 @@ import {ChartComponent} from "../../components/chart/chart.component";
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit {
 
   public user: UserModel;
-  public deal: any;
-  public defaultDeal = {
-    resource: null,
-    unitPrice: null,
-    name: null,
-    supplier: null,
-    postalCode: null,
-    isSaved: false
-  }
+  public deal: DealModel = DealModel.getDefaultDeal();
+  public defaultDeal: DealModel = DealModel.getDefaultDeal();
   public resources;
   private selectedDeal: DealModel;
 
@@ -41,8 +34,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.resourceService.getResources().subscribe(
-      resouces => {
-        this.resources = resouces;
+      resources => {
+        this.resources = resources;
       }
     );
 
@@ -50,26 +43,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.user = data['user'];
     });
 
-    this.deal = {
-      resource: null,
-      unitPrice: null,
-      name: null,
-      supplier: null,
-      postalCode: null,
-      isSaved: false
-    };
-
     this.selectedDeal = this.deal;
     if (this.user.deals.length >= 1) {
       this.deal = this.user.deals[0];
     }
   }
 
-  ngAfterViewInit() {
-    // dealModal view available here
-  }
-
-  showDealModal(deal: any) {
+  showDealModal(deal: DealModel) {
     this.dealModalComponent.showDealModal(deal);
   }
 

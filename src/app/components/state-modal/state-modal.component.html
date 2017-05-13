@@ -1,7 +1,8 @@
 <div bsModal #stateModal="bs-modal" class="modal fade modal-conso-{{deal.resource.key | lower}}" tabindex="-1" role="dialog" aria-labelledby="stateModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form [formGroup]="stateForm" (ngSubmit)="submitState()">
+
+      <div *ngIf="!canShowForm()">
         <div class="modal-header">
           <h4 class="modal-title">Revelé mon compteur {{deal.resource.name}}</h4>
           <button type="button" class="close" (click)="stateModal.hide()" aria-label="Close">
@@ -9,13 +10,32 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="input-group mb-3">
-            <input type="number" name="statement" class="form-control" placeholder="Valeur du compteur" required formControlName="statement" >
-            <span class="input-group-addon"><i class="icon-speedometer icons font-2xl d-block"></i></span>
+            <p>Vous avez déjà relevé votre compteur : {{deal.lastState.value}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="stateModal.hide()">Fermer</button>
+        </div>
+      </div>
+
+      <form  *ngIf="canShowForm()" [formGroup]="stateForm" (ngSubmit)="submitState()">
+        <div class="modal-header">
+          <h4 class="modal-title">Revelé mon compteur {{deal.resource.name}}</h4>
+          <button type="button" class="close" (click)="stateModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group {{hasError ? 'has-danger' : '' }}">
+            <span *ngIf="deal.lastState !== null">La valeur doit être suppérieure à la dernière saisie en date</span>
+            <div class="input-group mb-3">
+              <input type="number" name="statement" class="form-control" placeholder="{{deal.lastState === null ? 'Valeur relevée sur le compteur' : 'Dernière valeur saisie : ' + deal.lastState.value}}" required formControlName="statement" >
+              <span class="input-group-addon"><i class="icon-speedometer icons font-2xl d-block"></i></span>
+            </div>
+            <span class="alert-danger" *ngIf="hasError">{{errorMessage}}</span>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="stateModal.hide()">Close</button>
+          <button type="button" class="btn btn-secondary" (click)="stateModal.hide()">Fermer</button>
           <button type="submit" class="btn btn-deal-primary" [disabled]="!stateForm.valid">Enregister</button>
         </div>
       </form>

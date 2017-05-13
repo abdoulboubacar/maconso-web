@@ -4,7 +4,7 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import {StorageService} from "../storage/storage.service";
 import {Config} from "../../app.config";
-import {UserModel} from "../../../models/user.model";
+import {UserModel} from "../../models/user.model";
 
 @Injectable()
 export class LoginService {

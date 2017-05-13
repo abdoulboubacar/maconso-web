@@ -16,7 +16,7 @@ main {
 @each $variant, $colors in (default: $gray-lighter $gray-lightest, watter: $brand-primary $brand-primary, gas: $brand-warning $brand-warning, electricity: $brand-danger $brand-danger) {
   .card-#{$variant} {
     cursor: pointer;
-    opacity: .55;
+    opacity: .45;
     @include card-variant(nth($colors, 1), nth($colors, 2));
     .btn [class^="icon-"], .btn [class*=" icon-"] {
       display: inline-block;
@@ -25,12 +25,19 @@ main {
       font-size: 30px;
       font-weight: bold;
     }
+    .card-block {
+      padding: 0.5rem;
+      font-weight: bold;
+    }
+    h6, small {
+      font-weight: bold;
+    }
   }
 }
 
 .add-conso {
   text-align: center;
-  line-height: 16;
+  line-height: 15.5;
   cursor: pointer;
   opacity: 1;
   .font {
@@ -73,6 +80,38 @@ main {
   }
 }
 
+/*principal charts*/
+@each $variant, $color in (
+  default: $gray-lighter,
+  watter: $brand-primary,
+  gas: $brand-warning,
+  electricity: $brand-danger)
+{
+  .deal-chart-#{$variant} {
+    color: $color;
+    font-weight: bold;
+    .deal-chart-header {
+      padding-top: 20px;
+      h3 {
+        margin-top: -3px;
+        border-bottom: solid 1px $color;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+      h2 {
+        margin-top: 0;
+        padding-top: 0;
+      }
+      i {
+        font-weight: bold;
+        cursor: pointer;
+        opacity: 0.35;
+        margin-top: 10px;
+      }
+    }
+  }
+}
+
 .btn-primary {
   @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border-color);
 }
@@ -94,5 +133,9 @@ main {
 
 button {
   cursor: pointer;
+}
+
+.align-center {
+  text-align: center;
 }
 

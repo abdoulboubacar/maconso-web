@@ -5,7 +5,7 @@
   <ul class="nav navbar-nav ml-auto" *ngIf="user !== undefined && user!==null && !user.isAnonymous">
     <li class="nav-item dropdown" dropdown (onToggle)="toggled($event)">
       <a href class="nav-link dropdown-toggle" dropdownToggle (click)="false">
-        <img src="assets/img/avatars/2.jpg" class="img-avatar">
+        <img src="assets/img/avatars/avatar.png" class="img-avatar">
         <span class="d-md-down-none">{{user.firstName}} {{user.lastName}}</span>
       </a>
       <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">

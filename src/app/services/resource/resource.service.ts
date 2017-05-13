@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {ResourceModel} from "../../../models/resource.model";
+import {ResourceModel} from "../../models/resource.model";
 import {Observable} from "rxjs";
 import {Http} from "@angular/http";
 import {Config} from "../../app.config";
@@ -14,7 +14,7 @@ export class ResourceService {
       .map(res => res.json());
   }
 
-  getResources() {
+  public getResources() : Observable<Array<ResourceModel>> {
     return this.http.get(Config.apiUrl + '/resources')
       .map(res => res.json());
   }

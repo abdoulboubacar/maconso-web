@@ -1,4 +1,4 @@
-<div class="animated fadeIn card card-inverse card-{{deal.resource.key | lower}} {{currentDeal.id == deal.id ? 'card-current' : ''}}" (click)="loadDeal()">
+<div class="fadeIn card card-inverse card-{{deal.resource.key | lower}} {{currentDeal.id == deal.id ? 'card-current' : ''}}" (click)="loadDeal()">
   <div class="card-block pb-0">
     <div class="btn-group float-right">
       <button type="button" class="btn btn-transparent p-0 pr-1" (click)="releve()">
@@ -11,8 +11,15 @@
     <h6 class="mb-0">{{deal.resource.name | upperFirst}} <br> {{deal.unitPrice | currency:'EUR':true:'1.4'}} / {{deal.resource.unit}}</h6>
     <small>{{deal.name | upperFirst}}</small>
   </div>
-  <div class="chart-wrapper px-3" style="height:70px;">
-
+  <div class="chart-wrapper" style="height:70px;">
+    <canvas baseChart class="chart"
+            [datasets]="lineChart3Data"
+            [labels]="lineChart3Labels"
+            [options]="lineChart3Options"
+            [colors]="lineChart3Colours"
+            [legend]="lineChart3Legend"
+            [chartType]="lineChart3Type"
+    ></canvas>
   </div>
 </div>
 <app-state-modal [deal]="deal" (onSaveStateEmitter)="onSaveState($event)"></app-state-modal>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {Config} from "../../app.config";
 import {Http} from "@angular/http";
-import {StateModel} from "../../../models/state.model";
+import {StateModel} from "../../models/state.model";
 
 @Injectable()
 export class StateService {

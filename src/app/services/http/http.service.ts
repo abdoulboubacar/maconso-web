@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import {
-  Http, Request, RequestOptionsArgs, Response, ConnectionBackend, RequestOptions,
+  Http, Request, RequestOptionsArgs, Response, RequestOptions,
   XHRBackend, Headers
 } from "@angular/http";
 import {Observable} from "rxjs";
 import {StorageService} from "../storage/storage.service";
-import {UserModel} from "../../../models/user.model";
+import {UserModel} from "../../models/user.model";
 
 @Injectable()
 export class HttpService extends Http {
@@ -34,6 +34,7 @@ export class HttpService extends Http {
       if (error.status === 401 || error.status === 403) {
         console.log('The authentication session expires or the user is not authorised.');
         this.storageService.remove("user");
+        window.location.href = '/login';
       }
       return Observable.throw(error);
     });

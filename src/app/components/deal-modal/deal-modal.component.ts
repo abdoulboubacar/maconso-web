@@ -1,12 +1,12 @@
 import {Component, OnInit, ViewChild, Input, Renderer2, AfterViewInit, OnChanges} from '@angular/core';
 import {ModalDirective} from "ngx-bootstrap";
 import {FormControl, FormGroup, FormBuilder, Validators} from "@angular/forms";
-import {DealModel} from "../../../models/deal.model";
+import {DealModel} from "../../models/deal.model";
 import {DealService} from "../../services/deal/deal.service";
 import {isNullOrUndefined} from "util";
-import {UserModel} from "../../../models/user.model";
+import {UserModel} from "../../models/user.model";
 import {StorageService} from "../../services/storage/storage.service";
-import {ResourceModel} from "../../../models/resource.model";
+import {ResourceModel} from "../../models/resource.model";
 import {ResourceService} from "../../services/resource/resource.service";
 
 @Component({
@@ -30,6 +30,7 @@ export class DealModalComponent implements OnInit, OnChanges, AfterViewInit {
   private unitPriceCtrl: FormControl;
   private postalCodeCtrl: FormControl;
   private nameCtrl: FormControl;
+  private subscriptionPriceCtrl: FormControl;
 
   @ViewChild('dealModal')
   public dealModal: ModalDirective;
@@ -52,13 +53,15 @@ export class DealModalComponent implements OnInit, OnChanges, AfterViewInit {
     this.unitPriceCtrl = this.fb.control('', Validators.required);
     this.nameCtrl = this.fb.control('', Validators.required);
     this.postalCodeCtrl = this.fb.control('', Validators.required);
+    this.subscriptionPriceCtrl = this.fb.control('', Validators.required);
 
     this.dealForm = this.fb.group({
       resource: this.resourceCtrl,
       supplier: this.supplierCtrl,
       unitPrice: this.unitPriceCtrl,
       name: this.nameCtrl,
-      postalCode: this.postalCodeCtrl
+      postalCode: this.postalCodeCtrl,
+      subscriptionPrice: this.subscriptionPriceCtrl
     });
   }
 
@@ -82,7 +85,8 @@ export class DealModalComponent implements OnInit, OnChanges, AfterViewInit {
       'name': '',
       'unitPrice': '',
       'supplier': '',
-      'postalCode': ''
+      'postalCode': '',
+      'subscriptionPrice': ''
     });
     this.selectedFormResource = null;
   }
@@ -93,17 +97,24 @@ export class DealModalComponent implements OnInit, OnChanges, AfterViewInit {
 
   submitDeal() {
     this.deal.name = this.dealForm.value.name;
-    this.deal.resource = this.dealForm.value.resource;
+    let res: ResourceModel;
+    for (res of this.resources) {
+      if (res.key === this.dealForm.value.resource) {
+        this.deal.resource = res;
+      }
+    }
+
     this.deal.unitPrice = this.dealForm.value.unitPrice;
     this.deal.supplier = this.dealForm.value.supplier;
     this.deal.postalCode = this.dealForm.value.postalCode;
+    this.deal.subscriptionPrice = this.dealForm.value.subscriptionPrice;
 
     if (isNullOrUndefined(this.deal.id)) {
       this.dealService.createDeal(this.deal).subscribe(
         deal => {
           this.user.deals = this.user.deals.concat([deal]);
           this.storageService.save("user", this.user);
-          //this.dealForm.reset();
+          this.deal = deal;
           this.dealModal.hide();
         }
       );
@@ -113,9 +124,9 @@ export class DealModalComponent implements OnInit, OnChanges, AfterViewInit {
           let dealIndex = this.user.deals.indexOf(this.deal);
           if (dealIndex !== -1) {
             this.user.deals[dealIndex] = deal;
-            this.deal = deal;
             this.storageService.save("user", this.user);
           }
+          this.deal = deal;
           this.dealModal.hide();
         }
       );
@@ -126,9 +137,11 @@ export class DealModalComponent implements OnInit, OnChanges, AfterViewInit {
     let cssClass = 'modal-conso-default';
     if(!isNullOrUndefined(this.dealForm.value.resource)) {
       cssClass = 'modal-conso-' + this.dealForm.value.resource.toLowerCase();
-      this.resourceService.getResource(this.dealForm.value.resource).subscribe(
-        resource => {this.selectedFormResource = resource}
-      );
+      if (!isNullOrUndefined(this.dealForm.value.resource) && this.dealForm.value.resource !== '') {
+        this.resourceService.getResource(this.dealForm.value.resource).subscribe(
+          resource => {this.selectedFormResource = resource}
+        );
+      }
     }
     this.applyClass(cssClass);
   }
@@ -143,16 +156,13 @@ export class DealModalComponent implements OnInit, OnChanges, AfterViewInit {
 
   showDealModal(deal: DealModel) {
     this.deal = deal;
-    let resourceKey = '';
-    if (deal.resource != null) {
-      resourceKey = deal.resource.key;
-    }
     this.dealForm.setValue({
-      'resource': resourceKey,
+      'resource': deal.resource.key,
       'name': deal.name,
       'unitPrice': deal.unitPrice,
       'supplier': deal.supplier,
-      'postalCode': deal.postalCode
+      'postalCode': deal.postalCode,
+      'subscriptionPrice': deal.subscriptionPrice
     });
     this.render();
     this.dealModal.show();

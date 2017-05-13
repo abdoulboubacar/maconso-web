@@ -1,16 +1,22 @@
-<div class="card" *ngIf="deal.id != null">
-  <div class="card-header">
-    {{deal.resource.name | upperFirst}}
-    <div class="card-actions">
-      <a href="http://www.chartjs.org">
-        <small class="text-muted">docs</small>
-      </a>
-    </div>
+<div *ngIf="deal.id != null" class="card deal-chart-{{deal.resource.key | lower }}">
+  <div class="container deal-chart-header">
+    <div class="row">
+      <div class="col">
+        <i class="pull-right icon-arrow-left icons font-5xl d-block"></i>
+      </div>
+      <div class="col-6 align-center">
+        <h3>{{deal.resource.name | upperFirst}} {{year}}</h3>
+        <h2>{{conso}} {{deal.resource.unit}}</h2>
+      </div>
+      <div class="col">
+        <i class="pull-left icon-arrow-right icons font-5xl d-block"></i>
+      </div><!--/.col-->
+    </div><!--/.row-->
   </div>
 
   <div *ngIf="deal.resource.key === 'ELECTRICITY' " class="card-block">
     <div class="chart-wrapper">
-      <canvas #energieChild height="380" baseChart class="chart"
+      <canvas #energieChild height="280" baseChart class="chart"
               [datasets]="chartData"
               [chartType]="chartType"
               [options]="chartOptions"
@@ -23,7 +29,7 @@
 
   <div *ngIf="deal.resource.key === 'GAS' " class="card-block">
     <div class="chart-wrapper">
-      <canvas #energieChild height="380" baseChart class="chart"
+      <canvas #energieChild height="280" baseChart class="chart"
               [datasets]="chartData"
               [chartType]="chartType"
               [options]="chartOptions"
@@ -36,7 +42,7 @@
 
   <div *ngIf="deal.resource.key === 'WATTER' " class="card-block">
     <div class="chart-wrapper">
-      <canvas #energieChild height="380" baseChart class="chart"
+      <canvas #energieChild height="280" baseChart class="chart"
               [datasets]="chartData"
               [chartType]="chartType"
               [options]="chartOptions"
@@ -46,4 +52,6 @@
       ></canvas>
     </div>
   </div>
+
+  <div class="card-footer"></div>
 </div>

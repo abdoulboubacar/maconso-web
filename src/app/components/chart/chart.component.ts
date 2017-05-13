@@ -1,17 +1,23 @@
 import {Component, OnInit, Input, OnChanges, AfterViewInit, ViewChild} from '@angular/core';
-import {DealModel} from "../../../models/deal.model";
+import {DealModel} from "../../models/deal.model";
 import {StateService} from "../../services/state/state.service";
 import {BaseChartDirective} from "ng2-charts";
+import {isNullOrUndefined} from "util";
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss']
 })
-export class ChartComponent implements OnInit, OnChanges, AfterViewInit {
+export class ChartComponent implements OnInit, OnChanges {
 
   @Input()
   private deal: DealModel;
+
+  private year: number;
+
+  private conso = 0;
 
   @ViewChild(BaseChartDirective) private chart: BaseChartDirective;
 
@@ -58,11 +64,16 @@ export class ChartComponent implements OnInit, OnChanges, AfterViewInit {
     responsive: true,
     scales: {
       xAxes: [{
+        categoryPercentage: 1,
+        barPercentage: 0.98,
         gridLines: {
           color: "rgba(0, 0, 0, 0)",
         },
       }],
       yAxes: [{
+        display: false,
+        // categoryPercentage: 0.1,
+        // barPercentage: 1.9,
         gridLines: {
           color: "rgba(0, 0, 0, 0)",
         },
@@ -73,33 +84,36 @@ export class ChartComponent implements OnInit, OnChanges, AfterViewInit {
     }
   };
 
-  public chartLegend = true;
+  public chartLegend = false;
   public chartType = 'bar';
 
   constructor(private stateService: StateService) { }
 
   ngOnInit() {
-   this.loadChartData();
+    let date = new Date();
+    this.year = date.getFullYear();
+    this.loadChartData();
   }
 
   ngOnChanges () {
     this.loadChartData();
   }
 
-  ngAfterViewInit () {
-    // console.log(this.chart);
-  }
 
   loadChartData() {
-    let date = new Date();
-    this.stateService.getYearData(this.deal.id, date.getFullYear()).subscribe(
-      organizeData => {
-        this.chartData = [{
-          data:organizeData,
-          label:this.deal.name + ' ' + date.getFullYear()
-        }];
-      }
-    );
+    if(!isNullOrUndefined(this.year)) {
+      this.stateService.getYearData(this.deal.id, this.year).subscribe(
+
+        organizeData => {
+          this.conso = organizeData.reduce((value1, value2) => value1 + value2, 0);
+          this.chartData = [{
+            data: organizeData,
+            // label: this.deal.name + ' ' + this.year
+            fill: true
+          }];
+        }
+      );
+    }
   }
 
 }

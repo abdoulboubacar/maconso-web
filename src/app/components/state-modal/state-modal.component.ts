@@ -1,9 +1,9 @@
 import {Component, OnInit, Input, ViewChild, EventEmitter, Output} from '@angular/core';
-import {DealModel} from "../../../models/deal.model";
+import {DealModel} from "../../models/deal.model";
 import {ModalDirective} from "ngx-bootstrap";
 import {FormGroup, FormControl, FormBuilder, Validators} from "@angular/forms";
 import {StateService} from "../../services/state/state.service";
-import {StateModel} from "../../../models/state.model";
+import {StateModel} from "../../models/state.model";
 
 @Component({
   selector: 'app-state-modal',
@@ -17,6 +17,9 @@ export class StateModalComponent implements OnInit {
 
   private stateForm: FormGroup;
   public statementCtrl: FormControl;
+  private errorMessage: string;
+  private hasError = false;
+  private lastState: StateModel;
 
   @ViewChild('stateModal')
   public stateModal: ModalDirective;
@@ -45,12 +48,38 @@ export class StateModalComponent implements OnInit {
       state => {
         this.stateModal.hide();
         this.onSaveStateEmitter.emit(state);
-        // window.location.href = '/';
+        this.stateForm.value.statement = '';
       },
       error => {
-        console.log(error);
+        this.hasError = true;
+        this.errorMessage = this.toJson(error._body).message + ' ' +this.toJson(error._body).value
       }
     );
+  }
+
+  canShowForm(): boolean {
+    if (this.deal.lastState === null) {
+      return true;
+    }
+
+    let today = new Date();
+    let lastStateDate = new Date(this.deal.lastState.date);
+    console.log(today);
+    console.log(lastStateDate);
+    console.log(this.deal.lastState.date);
+
+    return !(lastStateDate.getDate() === today.getDate()
+          && lastStateDate.getMonth() === today.getMonth()
+          && lastStateDate.getFullYear() === today.getFullYear());
+
+  }
+
+  private toJson(value: string): any {
+    try {
+      return JSON.parse(value);
+    } catch (e) {
+      return value;
+    }
   }
 
 }

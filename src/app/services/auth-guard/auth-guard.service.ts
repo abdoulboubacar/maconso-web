@@ -3,7 +3,7 @@ import {StorageService} from "../storage/storage.service";
 import {Router, CanActivate} from "@angular/router";
 import {isNullOrUndefined} from "util";
 import {tokenNotExpired, JwtHelper} from "angular2-jwt";
-import {UserModel} from "../../../models/user.model";
+import {UserModel} from "../../models/user.model";
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
