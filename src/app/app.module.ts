@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {NgModule, LOCALE_ID} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule, Http} from '@angular/http';
 
@@ -28,6 +28,8 @@ import {UserResolver} from "./resolvers/user-resolver/user-resolver.service";
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { StateModalComponent } from './components/state-modal/state-modal.component';
+import {DateFilterPipe} from "./pipes/date-filter/date-filter.pipe";
+import { SwitchComponent } from './components/switch/switch.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { StateModalComponent } from './components/state-modal/state-modal.compon
     UpperFirstPipe,
     FooterComponent,
     HeaderComponent,
-    StateModalComponent
+    StateModalComponent,
+    DateFilterPipe,
+    SwitchComponent
   ],
   imports: [
     BrowserModule,
@@ -55,6 +59,7 @@ import { StateModalComponent } from './components/state-modal/state-modal.compon
     ChartsModule
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: "fr-FR" },
     { provide: Http, useClass: HttpService },
     LoginService,
     RegisterService,

@@ -4,6 +4,7 @@ import {ModalDirective} from "ngx-bootstrap";
 import {FormGroup, FormControl, FormBuilder, Validators} from "@angular/forms";
 import {StateService} from "../../services/state/state.service";
 import {StateModel} from "../../models/state.model";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-state-modal',
@@ -13,7 +14,7 @@ import {StateModel} from "../../models/state.model";
 export class StateModalComponent implements OnInit {
 
   @Input()
-  private deal: DealModel;
+  public deal: DealModel;
 
   private stateForm: FormGroup;
   public statementCtrl: FormControl;
@@ -47,8 +48,8 @@ export class StateModalComponent implements OnInit {
     this.stateService.createState(this.deal.id, {'value': this.stateForm.value.statement}).subscribe(
       state => {
         this.stateModal.hide();
+        this.stateForm.reset();
         this.onSaveStateEmitter.emit(state);
-        this.stateForm.value.statement = '';
       },
       error => {
         this.hasError = true;
@@ -62,16 +63,10 @@ export class StateModalComponent implements OnInit {
       return true;
     }
 
-    let today = new Date();
-    let lastStateDate = new Date(this.deal.lastState.date);
-    console.log(today);
-    console.log(lastStateDate);
-    console.log(this.deal.lastState.date);
+    let today = moment(new Date());
+    let lastStateDate =  moment(this.deal.lastState.date);
 
-    return !(lastStateDate.getDate() === today.getDate()
-          && lastStateDate.getMonth() === today.getMonth()
-          && lastStateDate.getFullYear() === today.getFullYear());
-
+    return today.format('DD-MM-YYYY') !== lastStateDate.format('DD-MM-YYYY');
   }
 
   private toJson(value: string): any {

@@ -13,7 +13,7 @@ import {forEach} from "@angular/router/src/utils/collection";
 export class ChartComponent implements OnInit, OnChanges {
 
   @Input()
-  private deal: DealModel;
+  public deal: DealModel;
 
   private year: number;
 
@@ -21,11 +21,22 @@ export class ChartComponent implements OnInit, OnChanges {
 
   @ViewChild(BaseChartDirective) private chart: BaseChartDirective;
 
+  private unit = "EUR";
+
   public chartData: Array<any> = [
+    {data: [], label: ''},
     {data: [], label: ''}
   ];
 
   public chartElectricityColours: Array<any> = [
+    {
+      backgroundColor: '#d9534f',
+      borderColor: 'rgba(148,159,177,1)',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    },
     {
       backgroundColor: '#d9534f',
       borderColor: 'rgba(148,159,177,1)',
@@ -99,18 +110,33 @@ export class ChartComponent implements OnInit, OnChanges {
     this.loadChartData();
   }
 
+  changeUnit(unit: boolean) {
+    if (unit) {
+      this.unit = "EUR";
+    } else {
+      this.unit = this.deal.resource.unit;
+    }
+    this.loadChartData();
+  }
 
   loadChartData() {
     if(!isNullOrUndefined(this.year)) {
-      this.stateService.getYearData(this.deal.id, this.year).subscribe(
+      this.stateService.getYearData(this.deal.id, this.year, this.unit).subscribe(
 
         organizeData => {
-          this.conso = organizeData.reduce((value1, value2) => value1 + value2, 0);
+          console.log(organizeData);
+          this.conso = organizeData.global.reduce((value1, value2) => value1 + value2, 0);
           this.chartData = [{
-            data: organizeData,
-            // label: this.deal.name + ' ' + this.year
-            fill: true
-          }];
+              data: organizeData.global,
+              label: 'Consomation',
+              fill: true
+            },
+            {
+              data: organizeData.subscription,
+              label: 'Abonnement',
+              fill: false
+            },
+          ];
         }
       );
     }

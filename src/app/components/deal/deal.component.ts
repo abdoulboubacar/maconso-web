@@ -11,10 +11,10 @@ import {StateModel} from "../../models/state.model";
 export class DealComponent implements OnInit {
 
   @Input()
-  private deal: DealModel;
+  public deal: DealModel;
 
   @Input()
-  private  currentDeal: DealModel;
+  public  currentDeal: DealModel;
 
   @Output()
   private onToggleSetting: EventEmitter<DealModel> = new EventEmitter<DealModel>();
@@ -33,11 +33,19 @@ export class DealComponent implements OnInit {
   // lineChart3
   public lineChart3Data: Array<any> = [
     {
-      data: [78, 81, 80, 45, 34, 12, 40],
-      label: 'Series A'
+      data: [
+        Math.floor(Math.random() * 6) + 1,
+        Math.floor(Math.random() * 6) + 1,
+        Math.floor(Math.random() * 6) + 1,
+        Math.floor(Math.random() * 6) + 1,
+        Math.floor(Math.random() * 6) + 1,
+        Math.floor(Math.random() * 6) + 1,
+        Math.floor(Math.random() * 6) + 1,
+      ],
+      label: ''
     }
   ];
-  public lineChart3Labels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  public lineChart3Labels: Array<any> = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
   public lineChart3Options: any = {
     maintainAspectRatio: false,
     responsive: true,

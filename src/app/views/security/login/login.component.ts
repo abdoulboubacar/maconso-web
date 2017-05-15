@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
         this.authenticationFailed = false;
         this.storageService.save('user', user);
         // this.router.navigate(['/'])
-        window.location.href = '/';
+        window.location.href = '/dashboard';
       },
       error => {
         this.authenticationFailed = true;

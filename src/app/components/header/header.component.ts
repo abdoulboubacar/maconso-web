@@ -11,7 +11,7 @@ import {LoginService} from "../../services/login/login.service";
 })
 export class HeaderComponent implements OnInit {
 
-  private user: UserModel;
+  public user: UserModel;
 
   constructor(
     private storageService: StorageService,

@@ -1,0 +1,6 @@
+<label class="switch switch-lg switch-text switch-euro switch-{{deal.resource.key | lower}}">
+  <input #input checked="checked" class="switch-input" type="checkbox" (click)="toggle()">
+  <span *ngIf="deal.resource.unit === 'kwh'" class="switch-label" data-on="&euro; TTC" data-off="kwh"></span>
+  <span *ngIf="deal.resource.unit === 'm3'" class="switch-label" data-on="&euro; TTC" data-off="m3"></span>
+  <span class="switch-handle"></span>
+</label>

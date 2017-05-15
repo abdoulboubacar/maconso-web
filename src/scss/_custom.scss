@@ -16,8 +16,8 @@ main {
 @each $variant, $colors in (default: $gray-lighter $gray-lightest, watter: $brand-primary $brand-primary, gas: $brand-warning $brand-warning, electricity: $brand-danger $brand-danger) {
   .card-#{$variant} {
     cursor: pointer;
-    opacity: .45;
-    @include card-variant(nth($colors, 1), nth($colors, 2));
+    opacity: 0.75;
+    @include card-variant(darken(nth($colors, 1), 2%), nth($colors, 2));
     .btn [class^="icon-"], .btn [class*=" icon-"] {
       display: inline-block;
       margin-top: -2px;
@@ -56,6 +56,9 @@ main {
   min-height: 80vh;
 }
 
+input:invalid {
+  border: solid 1px $brand-danger;
+}
 /*modals*/
 @each $variant, $colors in (
   default: $gray-lighter $white $gray-lighter $gray-lighter,
@@ -88,7 +91,7 @@ main {
   electricity: $brand-danger)
 {
   .deal-chart-#{$variant} {
-    color: $color;
+    color: darken($color, 2%);
     font-weight: bold;
     .deal-chart-header {
       padding-top: 20px;
@@ -107,6 +110,11 @@ main {
         cursor: pointer;
         opacity: 0.35;
         margin-top: 10px;
+      }
+    }
+
+    .deal-chart-footer {
+      p {
       }
     }
   }
@@ -137,5 +145,102 @@ button {
 
 .align-center {
   text-align: center;
+}
+
+@mixin switch-energie-variant($color) {
+  > .switch-input:checked ~ .switch-label {
+    background: $color !important;
+    border-color: darken($color,10%);
+  }
+
+  > .switch-input:checked ~ .switch-handle {
+    border-color: darken($color,10%);
+  }
+}
+
+//switch
+@mixin switch-outline-energie-variant($color) {
+  > .switch-input:checked ~ .switch-label {
+    background: #fff !important;
+    border-color: $color;
+
+    &::after {
+      color: $color;
+    }
+  }
+
+  > .switch-input:checked ~ .switch-handle {
+    border-color: $color;
+  }
+}
+
+@mixin switch-outline-alt-energie-variant($color) {
+  > .switch-input:checked ~ .switch-label {
+    background: #fff !important;
+    border-color: $color;
+
+    &::after {
+      color: $color;
+    }
+  }
+
+  > .switch-input:checked ~ .switch-handle {
+    background: $color !important;
+    border-color: $color;
+  }
+}
+
+@each $variant, $color in (watter: $brand-primary, gas: $brand-warning, electricity: $brand-danger) {
+  //normal style
+  .switch.switch-#{$variant} {
+    @include switch-energie-variant(darken($color, 5%));
+    .switch-label {
+      background-color: darken($color, 5%) !important;
+      border-radius: 0px;
+      border: none;
+    }
+    .switch-handle {
+      top: 2*2px;
+      background: lighten($color, 20%);
+      border-radius: 0px;
+      border: none;
+    }
+  }
+  //outline style
+  .switch.switch-#{$variant}-outline {
+    @include switch-outline-energie-variant($color);
+  }
+  //outline alternative style
+  .switch.switch-#{$variant}-outline-alt {
+    @include switch-outline-alt-energie-variant($color);
+  }
+}
+
+.switch.switch-text .switch-label::before {
+  color: white;//#cfd8dc;
+}
+
+.switch.switch-text.switch-lg {
+  width: 2*56px;
+  height: 2*28px;
+}
+
+.switch.switch-text.switch-lg .switch-input:checked ~ .switch-handle {
+  left: 2*30px;
+}
+.switch.switch-text.switch-lg .switch-handle {
+  width: 2*24px;
+  height: 2*24px;
+}
+
+.switch.switch-text.switch-lg .switch-label {
+  font-size: 1.25em;
+}
+
+.login {
+  .container {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
 }
 

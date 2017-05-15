@@ -73,7 +73,6 @@ export class RegisterComponent implements OnInit {
       },
       error => {
         this.registrationFailed = true;
-        console.error(error);
       }
     );
   }

@@ -6,7 +6,8 @@
       </div>
       <div class="col-6 align-center">
         <h3>{{deal.resource.name | upperFirst}} {{year}}</h3>
-        <h2>{{conso}} {{deal.resource.unit}}</h2>
+        <h2 *ngIf="unit === 'EUR'">{{conso | currency:'EUR':true:'1.2'}}</h2>
+        <h2 *ngIf="unit !== 'EUR'">{{conso}} {{unit}}</h2>
       </div>
       <div class="col">
         <i class="pull-left icon-arrow-right icons font-5xl d-block"></i>
@@ -14,7 +15,7 @@
     </div><!--/.row-->
   </div>
 
-  <div *ngIf="deal.resource.key === 'ELECTRICITY' " class="card-block">
+  <div *ngIf="deal.resource.key === 'ELECTRICITY'" class="card-block">
     <div class="chart-wrapper">
       <canvas #energieChild height="280" baseChart class="chart"
               [datasets]="chartData"
@@ -27,7 +28,7 @@
     </div>
   </div>
 
-  <div *ngIf="deal.resource.key === 'GAS' " class="card-block">
+  <div *ngIf="deal.resource.key === 'GAS'" class="card-block">
     <div class="chart-wrapper">
       <canvas #energieChild height="280" baseChart class="chart"
               [datasets]="chartData"
@@ -40,7 +41,7 @@
     </div>
   </div>
 
-  <div *ngIf="deal.resource.key === 'WATTER' " class="card-block">
+  <div *ngIf="deal.resource.key === 'WATTER'" class="card-block">
     <div class="chart-wrapper">
       <canvas #energieChild height="280" baseChart class="chart"
               [datasets]="chartData"
@@ -53,5 +54,14 @@
     </div>
   </div>
 
-  <div class="card-footer"></div>
+  <div class="card-footer deal-chart-footer">
+    <div class="row">
+      <div class="col-md-1">
+        <app-switch [deal]="deal" (onToggleEmitter)="changeUnit($event)"></app-switch>
+      </div>
+      <div class="col-md-11 align-middle align-center">
+        <p>Les consos et tarifs affichés sont calculés sur la base des revelés saisis. Ils n'ont aucune valeur contractuelle.</p>
+      </div>
+    </div>
+  </div>
 </div>

@@ -6,7 +6,7 @@ import {DashboardComponent} from "./views/dashboard/dashboard.component";
 import {UserResolver} from "./resolvers/user-resolver/user-resolver.service";
 
 export const ROUTES: Routes = [
-  {path: '', redirectTo: 'dashboard', pathMatch: 'full', canActivate: [AuthGuardService], resolve: { user: UserResolver}},
+  {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
   {path: 'login', component: LoginComponent, resolve: { user: UserResolver}},
   {path: 'register', component: RegisterComponent, resolve: { user: UserResolver}},
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService], resolve: { user: UserResolver}},

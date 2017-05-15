@@ -11,7 +11,6 @@ export class DealService {
   constructor(private http: Http) { }
 
   createDeal(deal: DealModel) : Observable<DealModel> {
-    console.log(this.getData(deal));
     return this.http.put(Config.apiUrl + '/deal/create', this.getData(deal))
       .map(res => res.json());
   }
@@ -27,7 +26,6 @@ export class DealService {
   }
 
   getData(deal: DealModel) : any {
-    console.log(deal.resource);
     return {
       id: deal.id,
       name: deal.name,

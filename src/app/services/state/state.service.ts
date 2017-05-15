@@ -9,8 +9,8 @@ export class StateService {
 
   constructor(private http: Http) { }
 
-  public getYearData(dealId: number, year: number) : Observable<Array<number>> {
-    return this.http.get(`${Config.apiUrl}/deal/${dealId}/states/${year}`)
+  public getYearData(dealId: number, year: number, unit: string) : Observable<any> {
+    return this.http.get(`${Config.apiUrl}/deal/${dealId}/states/${year}/${unit}`)
       .map(res => res.json());
   }
 

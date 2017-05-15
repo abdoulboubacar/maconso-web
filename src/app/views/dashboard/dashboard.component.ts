@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private resourceService: ResourceService,
     private route: ActivatedRoute,
+    private storageService: StorageService
   ) { }
 
   ngOnInit() {
@@ -59,6 +60,8 @@ export class DashboardComponent implements OnInit {
 
   onSaveState(state: StateModel) {
     this.chartComponent.loadChartData();
+    this.deal.lastState = state;
+    this.storageService.save("user", this.user);
   }
 
 }

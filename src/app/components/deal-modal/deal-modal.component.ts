@@ -19,7 +19,7 @@ export class DealModalComponent implements OnInit, OnChanges, AfterViewInit {
   @Input()
   private user: UserModel;
 
-  private deal: DealModel = DealModel.getDefaultDeal();
+  public deal: DealModel = DealModel.getDefaultDeal();
 
   @Input()
   private resources;
