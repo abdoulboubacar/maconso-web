@@ -10,8 +10,10 @@ import {StorageService} from "./services/storage/storage.service";
 import {LoginComponent} from "./views/security/login/login.component";
 import {RouterModule} from "@angular/router";
 import {ROUTES} from "./app.routes";
-import { RegisterComponent } from './views/security/register/register.component';
+import {RegisterComponent} from './views/security/register/register.component';
+import {RecoverComponent} from './views/security/recover/recover.component';
 import {RegisterService} from "./services/register/register.service";
+import {RecoverService} from "./services/recover/recover.service";
 import {AuthGuardService} from "./services/auth-guard/auth-guard.service";
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import {BsDropdownModule, ModalModule} from "ngx-bootstrap";
@@ -36,6 +38,7 @@ import { SwitchComponent } from './components/switch/switch.component';
     AppComponent,
     LoginComponent,
     RegisterComponent,
+    RecoverComponent,
     DashboardComponent,
     DealComponent,
     DealModalComponent,
@@ -63,6 +66,7 @@ import { SwitchComponent } from './components/switch/switch.component';
     { provide: Http, useClass: HttpService },
     LoginService,
     RegisterService,
+    RecoverService,
     StorageService,
     AuthGuardService,
     DealService,
