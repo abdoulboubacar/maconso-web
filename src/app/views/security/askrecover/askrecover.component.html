@@ -1,0 +1,23 @@
+<div class="app flex-row align-items-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card mx-4">
+          <div class="card-block p-4">
+            <h1>Mot de passe perdu</h1>
+            <p>Recevoir un email pour changer de mot de passe</p>
+            <form (ngSubmit)="askrecover()" [formGroup]="askrecoverForm">
+
+              <div class="input-group mb-3" [ngClass]="{'has-danger': emailCtrl.dirty && emailCtrl.hasError('required')}">
+                <span class="input-group-addon">@</span>
+                <input type="text" name="email" class="form-control" placeholder="Email" required formControlName="email">
+              </div>
+
+              <button type="submit" [disabled]="!askrecoverForm.valid" class="btn btn-block btn-success">Envoyer</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
