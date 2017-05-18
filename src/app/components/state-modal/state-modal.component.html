@@ -26,9 +26,9 @@
         </div>
         <div class="modal-body">
           <div class="form-group {{hasError ? 'has-danger' : '' }}">
-            <span *ngIf="deal.lastState !== null">La valeur doit être suppérieure à la dernière saisie en date</span>
+            <span *ngIf="deal.lastState !== null">La valeur doit être suppérieure à la dernière saisie en date : {{deal.lastState.value}}</span>
             <div class="input-group mb-3">
-              <input type="number" name="statement" class="form-control" placeholder="{{deal.lastState === null ? 'Valeur relevée sur le compteur' : 'Dernière valeur saisie ' + (deal.lastState.date | dateFilter) + ' : ' + deal.lastState.value}}" required formControlName="statement" >
+              <input type="number" name="statement" class="form-control" placeholder="{{deal.lastState === null ? 'Valeur relevée sur le compteur' : (deal.lastState.date | dateFilter) + ' : ' + deal.lastState.value}}" required formControlName="statement" >
               <span class="input-group-addon"><i class="icon-speedometer icons font-2xl d-block"></i></span>
             </div>
             <span class="alert-danger" *ngIf="hasError">{{errorMessage}}</span>

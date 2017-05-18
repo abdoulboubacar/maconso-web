@@ -1,9 +1,8 @@
-import {Component, OnInit, Input, OnChanges, AfterViewInit, ViewChild} from '@angular/core';
+import {CurrencyPipe} from "@angular/common";
+import {Component, OnInit, Input, OnChanges} from '@angular/core';
 import {DealModel} from "../../models/deal.model";
 import {StateService} from "../../services/state/state.service";
-import {BaseChartDirective} from "ng2-charts";
 import {isNullOrUndefined} from "util";
-import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
   selector: 'app-chart',
@@ -19,94 +18,101 @@ export class ChartComponent implements OnInit, OnChanges {
 
   private conso = 0;
 
-  @ViewChild(BaseChartDirective) private chart: BaseChartDirective;
+  private chart: any;
 
-  private unit = "EUR";
+  public unit = "EUR";
 
-  public chartData: Array<any> = [
-    {data: [], label: ''},
-    {data: [], label: ''}
-  ];
-
-  public chartElectricityColours: Array<any> = [
-    {
-      backgroundColor: '#d9534f',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+  private options = {
+    chart: {
+      type: 'column',
+      height: 300,
+      // renderTo: 'container',
+      animation: {
+        duration: 2000,
+        easing: 'easeOutBounce'
+      }
     },
-    {
-      backgroundColor: '#d9534f',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    }
-  ];
-
-  public chartGasColours: Array<any> = [
-    {
-      backgroundColor: '#f0ad4e',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    }
-  ];
-
-  public chartWatterColours: Array<any> = [
-    {
-      backgroundColor: '#0275d8',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    }
-  ];
-
-  public chartLabels: Array<any> = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-  public chartOptions: any = {
-    scaleShowVerticalLines: false,
-    responsive: true,
-    scales: {
-      xAxes: [{
-        categoryPercentage: 1,
-        barPercentage: 0.98,
-        gridLines: {
-          color: "rgba(0, 0, 0, 0)",
-        },
-      }],
-      yAxes: [{
-        display: false,
-        // categoryPercentage: 0.1,
-        // barPercentage: 1.9,
-        gridLines: {
-          color: "rgba(0, 0, 0, 0)",
-        },
-        ticks: {
-          beginAtZero: true   // minimum value will be 0.
-        },
+    tooltip: {
+      unit: this.unit,
+      currencyPipe: this.currencyPipe,
+      formatter: function (tooltip) {
+        if (tooltip.options.unit === 'EUR') {
+          return "<span class='align-center'>" + this.series.name + " " + this.key + "<br/>" + tooltip.options.currencyPipe.transform(this.y, 'EUR', true, '1.2') + "</span>";
+        } else {
+          return "<span class='align-center'>" + this.series.name + " " + this.key + "<br/>" + (this.y).toLocaleString() + ' ' + tooltip.options.unit + "</span>";
+        }
+      }
+    },
+    plotOptions: {
+      column: {
+        grouping: false,
+        shadow: false,
+        borderWidth: 0,
+        bottom: 0
+      }
+    },
+    title : { text : '' },
+    series: [
+      { data: [], name: 'Consomation', color: '', pointPadding: 0, groupPadding: 0.01},
+      { data: [], name: 'Abonnement', color: '', pointPadding: 0, groupPadding: 0.01},
+    ],
+    xAxis: {
+      gridLineWidth: 0,
+      title: {
+        text: ''
+      },
+      categories: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+      stackLabels: {
+        enabled: true,
+        style: {
+          fontWeight: 'bold',
+          color: 'black'
+        }
+      }
+    },
+    yAxis: {
+      min: 0,
+      gridLineWidth: 0,
+      title: {
+        text: '',
+      },
+      labels: ''
+    },
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 600
+        }
       }]
     }
   };
 
-  public chartLegend = false;
-  public chartType = 'bar';
+  private colors = {
+    ELECTRICITY: {
+      conso: '#d9534f',
+      subscription: '#A6201C',
+    },
+    GAS: {
+      conso: '#f0ad4e',
+      subscription: '#BD7A1B',
+    },
+    WATTER: {
+      conso: '#0275d8',
+      subscription: '#0042A5',
+    },
+  }
 
-  constructor(private stateService: StateService) { }
+  constructor(private stateService: StateService, private currencyPipe: CurrencyPipe) {
+  }
 
   ngOnInit() {
-    let date = new Date();
-    this.year = date.getFullYear();
-    this.loadChartData();
+
   }
 
   ngOnChanges () {
+    if (this.unit !== "EUR") {
+      this.unit = this.deal.resource.unit;
+    }
     this.loadChartData();
   }
 
@@ -115,7 +121,15 @@ export class ChartComponent implements OnInit, OnChanges {
       this.unit = "EUR";
     } else {
       this.unit = this.deal.resource.unit;
+      // this.options.tooltip.unit = this.deal.resource.unit;
     }
+    this.loadChartData();
+  }
+
+  saveInstance(chartInstance) {
+    this.chart = chartInstance;
+    let date = new Date();
+    this.year = date.getFullYear();
     this.loadChartData();
   }
 
@@ -124,22 +138,26 @@ export class ChartComponent implements OnInit, OnChanges {
       this.stateService.getYearData(this.deal.id, this.year, this.unit).subscribe(
 
         organizeData => {
-          console.log(organizeData);
           this.conso = organizeData.global.reduce((value1, value2) => value1 + value2, 0);
-          this.chartData = [{
+          this.options.tooltip.unit = this.unit;
+          this.options.series = [{
               data: organizeData.global,
-              label: 'Consomation',
-              fill: true
+              name: 'Consomation',
+              color: this.colors[this.deal.resource.key].conso,
+              pointPadding: 0,
+              groupPadding: 0.02
             },
             {
               data: organizeData.subscription,
-              label: 'Abonnement',
-              fill: false
+              name: 'Abonnement',
+              color: this.colors[this.deal.resource.key].subscription,
+              pointPadding: 0,
+              groupPadding: 0.02
             },
           ];
+          this.chart.update(this.options, true);
         }
       );
     }
   }
-
 }
