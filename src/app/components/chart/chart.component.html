@@ -6,7 +6,7 @@
       </div>
       <div class="col-6 align-center">
         <h3>{{deal.resource.name | upperFirst}} {{year}}</h3>
-        <h2 *ngIf="unit === 'EUR'">{{conso | currency:'EUR':true:'1.2'}}</h2>
+        <h2 *ngIf="unit === 'EUR'">{{conso | currency:'EUR':true:'1.2'}} TTC*</h2>
         <h2 *ngIf="unit !== 'EUR'">{{conso}} {{unit}}</h2>
       </div>
       <div class="col">
@@ -14,45 +14,10 @@
       </div><!--/.col-->
     </div><!--/.row-->
   </div>
+  <chart [options]="options" (load)="saveInstance($event.context)">
 
-  <div *ngIf="deal.resource.key === 'ELECTRICITY'" class="card-block">
-    <div class="chart-wrapper">
-      <canvas #energieChild height="280" baseChart class="chart"
-              [datasets]="chartData"
-              [chartType]="chartType"
-              [options]="chartOptions"
-              [labels]="chartLabels"
-              [legend]="chartLegend"
-              [colors]="chartElectricityColours"
-      ></canvas>
-    </div>
-  </div>
+  </chart>
 
-  <div *ngIf="deal.resource.key === 'GAS'" class="card-block">
-    <div class="chart-wrapper">
-      <canvas #energieChild height="280" baseChart class="chart"
-              [datasets]="chartData"
-              [chartType]="chartType"
-              [options]="chartOptions"
-              [labels]="chartLabels"
-              [legend]="chartLegend"
-              [colors]="chartGasColours"
-      ></canvas>
-    </div>
-  </div>
-
-  <div *ngIf="deal.resource.key === 'WATTER'" class="card-block">
-    <div class="chart-wrapper">
-      <canvas #energieChild height="280" baseChart class="chart"
-              [datasets]="chartData"
-              [chartType]="chartType"
-              [options]="chartOptions"
-              [labels]="chartLabels"
-              [legend]="chartLegend"
-              [colors]="chartWatterColours"
-      ></canvas>
-    </div>
-  </div>
 
   <div class="card-footer deal-chart-footer">
     <div class="row">
@@ -60,7 +25,7 @@
         <app-switch [deal]="deal" (onToggleEmitter)="changeUnit($event)"></app-switch>
       </div>
       <div class="col-md-11 align-middle align-center">
-        <p>Les consos et tarifs affichés sont calculés sur la base des revelés saisis. Ils n'ont aucune valeur contractuelle.</p>
+        <p>* Les consos et tarifs affichés sont calculés sur la base des revelés saisis. Ils n'ont aucune valeur contractuelle.</p>
       </div>
     </div>
   </div>

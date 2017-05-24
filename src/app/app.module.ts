@@ -30,6 +30,20 @@ import { HeaderComponent } from './components/header/header.component';
 import { StateModalComponent } from './components/state-modal/state-modal.component';
 import {DateFilterPipe} from "./pipes/date-filter/date-filter.pipe";
 import { SwitchComponent } from './components/switch/switch.component';
+import { ChartModule } from 'angular2-highcharts';
+import * as highcharts from 'highcharts';
+import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
+import {CurrencyPipe} from "@angular/common";
+
+declare var require: any;
+
+export function highchartsFactory() {
+  const hc = require('highcharts');
+  // const dd = require('highcharts/modules/drilldown');
+  // dd(hc);
+
+  return hc;
+}
 
 @NgModule({
   declarations: [
@@ -56,11 +70,13 @@ import { SwitchComponent } from './components/switch/switch.component';
     BsDropdownModule.forRoot(),
     RouterModule.forRoot(ROUTES),
     ModalModule,
-    ChartsModule
+    ChartsModule,
+    ChartModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "fr-FR" },
     { provide: Http, useClass: HttpService },
+    { provide: HighchartsStatic, useFactory: highchartsFactory},
     LoginService,
     RegisterService,
     StorageService,
@@ -68,7 +84,8 @@ import { SwitchComponent } from './components/switch/switch.component';
     DealService,
     ResourceService,
     StateService,
-    UserResolver
+    UserResolver,
+    CurrencyPipe
   ],
   bootstrap: [AppComponent, HeaderComponent, FooterComponent]
 })

@@ -12,7 +12,7 @@ export class DateFilterPipe implements PipeTransform {
     const durationString = duration.split(' ');
     let dateToDisplay: string;
     if (durationString[durationString.length - 1] === ('jours' || 'mois' || 'ans') ) {
-      dateToDisplay = date.locale('fr').format('DD-MM-YYYY HH:MM');
+      dateToDisplay = date.locale('fr').format('dddd DD MMMM YYYY');
     } else {
       dateToDisplay = duration;
     }
