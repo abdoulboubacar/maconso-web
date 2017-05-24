@@ -2,6 +2,23 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
 
+      <div *ngIf="canShowForm() && confirm">
+        <div class="modal-header">
+          <h4 class="modal-title">Revelé mon compteur {{deal.resource.name}}</h4>
+          <button type="button" class="close" (click)="stateModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Vous confirmez la valeur : {{stateForm.value.statement}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="stateModal.hide()">Fermer</button>
+          <button type="button" class="btn btn-deal-primary" [disabled]="!confirm" (click)="submitState()">Enregister</button>
+        </div>
+      </div>
+
+
       <div *ngIf="!canShowForm()">
         <div class="modal-header">
           <h4 class="modal-title">Revelé mon compteur {{deal.resource.name}}</h4>
@@ -17,7 +34,7 @@
         </div>
       </div>
 
-      <form  *ngIf="canShowForm()" [formGroup]="stateForm" (ngSubmit)="submitState()">
+      <form  *ngIf="canShowForm() && !confirm" [formGroup]="stateForm" (ngSubmit)="confirmation()">
         <div class="modal-header">
           <h4 class="modal-title">Revelé mon compteur {{deal.resource.name}}</h4>
           <button type="button" class="close" (click)="stateModal.hide()" aria-label="Close">

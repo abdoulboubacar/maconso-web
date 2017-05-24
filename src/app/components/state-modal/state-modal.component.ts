@@ -21,6 +21,7 @@ export class StateModalComponent implements OnInit {
   private errorMessage: string;
   private hasError = false;
   private lastState: StateModel;
+  private confirm: boolean;
 
   @ViewChild('stateModal')
   public stateModal: ModalDirective;
@@ -38,6 +39,7 @@ export class StateModalComponent implements OnInit {
     this.stateForm = this.fb.group({
       statement: this.statementCtrl,
     });
+    this.confirm = false;
   }
 
   public showStateModal() {
@@ -45,17 +47,24 @@ export class StateModalComponent implements OnInit {
   }
 
   submitState() {
-    this.stateService.createState(this.deal.id, {'value': this.stateForm.value.statement}).subscribe(
-      state => {
-        this.stateModal.hide();
-        this.stateForm.reset();
-        this.onSaveStateEmitter.emit(state);
-      },
-      error => {
-        this.hasError = true;
-        this.errorMessage = this.toJson(error._body).message + ' ' +this.toJson(error._body).value
-      }
-    );
+    if (this.confirm) {
+      this.stateService.createState(this.deal.id, {'value': this.stateForm.value.statement}).subscribe(
+        state => {
+          this.stateModal.hide();
+          this.stateForm.reset();
+          this.onSaveStateEmitter.emit(state);
+        },
+        error => {
+          this.hasError = true;
+          this.errorMessage = this.toJson(error._body).message + ' ' +this.toJson(error._body).value
+        }
+      );
+    }
+    this.confirm = false;
+  }
+
+  confirmation() {
+    this.confirm = true;
   }
 
   canShowForm(): boolean {
