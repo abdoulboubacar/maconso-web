@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
 
     this.selectedDeal = this.deal;
     if (this.user.deals.length >= 1) {
-      this.deal = this.user.deals[0];
+      this.deal = this.user.deals.reverse()[0];
     }
   }
 

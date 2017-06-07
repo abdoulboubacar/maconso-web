@@ -28,7 +28,7 @@ export class ChartComponent implements OnInit, OnChanges {
       height: 300,
       // renderTo: 'container',
       animation: {
-        duration: 2000,
+        duration: 0,
         easing: 'easeOutBounce'
       }
     },
