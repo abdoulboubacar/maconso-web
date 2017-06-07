@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 export class RegisterService {
   constructor(private http: Http) { }
   register(newUser) : Observable<UserModel> {
-    return this.http.put(Config.apiUrl + '/register', newUser)
+    return this.http.put(Config.getApiUrl() + '/register', newUser)
       .map(res => res.json());
   }
 }

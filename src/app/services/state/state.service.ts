@@ -10,12 +10,12 @@ export class StateService {
   constructor(private http: Http) { }
 
   public getYearData(dealId: number, year: number, unit: string) : Observable<any> {
-    return this.http.get(`${Config.apiUrl}/deal/${dealId}/states/${year}/${unit}`)
+    return this.http.get(`${Config.getApiUrl()}/deal/${dealId}/states/${year}/${unit}`)
       .map(res => res.json());
   }
 
   public createState(dealId: number, value: any) : Observable<StateModel> {
-    return this.http.put(`${Config.apiUrl}/state/create/${dealId}`, value)
+    return this.http.put(`${Config.getApiUrl()}/state/create/${dealId}`, value)
       .map(res => res.json());
   }
 

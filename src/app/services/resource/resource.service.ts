@@ -10,12 +10,12 @@ export class ResourceService {
   constructor(private http: Http) { }
 
   public getResource(key: String) : Observable<ResourceModel> {
-    return this.http.get(Config.apiUrl + '/resources/' + key)
+    return this.http.get(Config.getApiUrl() + '/resources/' + key)
       .map(res => res.json());
   }
 
   public getResources() : Observable<Array<ResourceModel>> {
-    return this.http.get(Config.apiUrl + '/resources')
+    return this.http.get(Config.getApiUrl() + '/resources')
       .map(res => res.json());
   }
 

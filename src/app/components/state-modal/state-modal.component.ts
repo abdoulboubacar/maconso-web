@@ -21,7 +21,7 @@ export class StateModalComponent implements OnInit {
   private errorMessage: string;
   private hasError = false;
   private lastState: StateModel;
-  private confirm: boolean;
+  public confirm: boolean;
 
   @ViewChild('stateModal')
   public stateModal: ModalDirective;

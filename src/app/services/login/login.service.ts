@@ -12,12 +12,12 @@ export class LoginService {
   constructor(private http: Http, private storageService: StorageService) { }
 
   login(credentials): Observable<UserModel> {
-    return this.http.post(Config.apiUrl + '/login', credentials)
+    return this.http.post(Config.getApiUrl() + '/login', credentials)
       .map(res => res.json());
   }
 
   logout() : Observable<any> {
-    return this.http.get(Config.apiUrl + '/logout')
+    return this.http.get(Config.getApiUrl() + '/logout')
       .map(res => res.json());
   }
 

@@ -11,17 +11,17 @@ export class DealService {
   constructor(private http: Http) { }
 
   createDeal(deal: DealModel) : Observable<DealModel> {
-    return this.http.put(Config.apiUrl + '/deal/create', this.getData(deal))
+    return this.http.put(Config.getApiUrl() + '/deal/create', this.getData(deal))
       .map(res => res.json());
   }
 
   updateDeal(deal: DealModel): Observable<DealModel> {
-    return this.http.post(Config.apiUrl + '/deal/update/' + deal.id, this.getData(deal))
+    return this.http.post(Config.getApiUrl() + '/deal/update/' + deal.id, this.getData(deal))
       .map(res => res.json());
   }
 
   getUserDeals(user: UserModel) : Observable<Array<DealModel>> {
-    return this.http.get(Config.apiUrl + '/deals/' + user.id)
+    return this.http.get(Config.getApiUrl() + '/deals/' + user.id)
       .map(res => res.json());
   }
 
