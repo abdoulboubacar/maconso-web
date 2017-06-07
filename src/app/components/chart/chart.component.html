@@ -7,7 +7,7 @@
       <div class="col-6 align-center">
         <h3>{{deal.resource.name | upperFirst}} {{year}}</h3>
         <h2 *ngIf="unit === 'EUR'">{{conso | currency:'EUR':true:'1.2'}} TTC*</h2>
-        <h2 *ngIf="unit !== 'EUR'">{{conso}} {{unit}}</h2>
+        <h2 *ngIf="unit !== 'EUR'">{{conso | number : '1.2-2' }} {{unit}}</h2>
       </div>
       <div class="col">
         <i class="pull-left icon-arrow-right icons font-5xl d-block"></i>
@@ -25,7 +25,7 @@
         <app-switch [deal]="deal" (onToggleEmitter)="changeUnit($event)"></app-switch>
       </div>
       <div class="col-md-11 align-middle align-center">
-        <p>* Les consos et tarifs affichés sont calculés sur la base des revelés saisis. Ils n'ont aucune valeur contractuelle.</p>
+        <p>* Les consos et tarifs affichés sont calculés sur la base des revelés saisis. Ils n'ont aucune valeur contractuelle auprès de votre fournisseur.</p>
       </div>
     </div>
   </div>

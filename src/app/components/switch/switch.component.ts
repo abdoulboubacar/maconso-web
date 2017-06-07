@@ -30,7 +30,6 @@ export class SwitchComponent implements OnInit {
       this.input.nativeElement.value = 'on';
       this.onToggleEmitter.emit(true);
     }
-    console.log(this.input.nativeElement.value);
   }
 
 }
