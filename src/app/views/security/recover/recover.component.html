@@ -1,0 +1,29 @@
+<div class="app flex-row align-items-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card mx-4">
+          <div class="card-block p-4">
+            <h1>Redéfinir un mot de passe</h1>
+            <form (ngSubmit)="recover()" [formGroup]="recoverForm">
+
+              <div formGroupName="passwordForm">
+                <div class="input-group mb-3" [ngClass]="{'has-danger': passwordCtrl.dirty && passwordCtrl.hasError('required')}">
+                  <span class="input-group-addon"><i class="icon-lock"></i></span>
+                  <input type="password" name="password" class="form-control" placeholder="Mot de passe" required formControlName="password">
+                </div>
+
+                <div class="input-group mb-4" [ngClass]="{'has-danger': passwordCheckCtrl.dirty && passwordCheckCtrl.hasError('required')}">
+                  <span class="input-group-addon"><i class="icon-lock"></i></span>
+                  <input type="password" name="passwordCheck" class="form-control" placeholder="Confirmer le mot de passe" required formControlName="confirmPassword">
+                </div>
+              </div>
+
+              <button type="submit" [disabled]="!recoverForm.valid" class="btn btn-block btn-success">Valider</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
