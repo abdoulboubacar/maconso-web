@@ -1,0 +1,9 @@
+<!--<div>-->
+  <h1 class="align-center pb-4">Tarifs</h1>
+  <div clas="row">
+    <div *ngFor="let plan of plans" class="col-sm-6 col-sm-4 col-lg-4 plan-card">
+      <app-plan [plan]="plan" [resources]="resources" [current]="current" (onSelectPlan)="changePlan($event)"></app-plan>
+    </div><!--/.col-->
+  </div><!--/.row-->
+<!--</div>-->
+

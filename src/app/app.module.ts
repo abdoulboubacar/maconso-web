@@ -34,6 +34,9 @@ import { ChartModule } from 'angular2-highcharts';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
 import {CurrencyPipe} from "@angular/common";
 import { ReversePipe } from './pipes/reverse/reverse.pipe';
+import { PlansComponent } from './views/plans/plans.component';
+import { ResourcePipe } from './pipes/resource/resource.pipe';
+import { PlanComponent } from './components/plan/plan.component';
 
 declare var require: any;
 
@@ -61,7 +64,10 @@ export function highchartsFactory() {
     StateModalComponent,
     DateFilterPipe,
     SwitchComponent,
-    ReversePipe
+    ReversePipe,
+    PlansComponent,
+    ResourcePipe,
+    PlanComponent
   ],
   imports: [
     BrowserModule,
